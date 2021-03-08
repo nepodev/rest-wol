@@ -1,0 +1,17 @@
+[Unit]
+Description=Web WOL
+Documentation=https://github.com/nepodev/rest-wol
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=adm
+StandardOutput=syslog
+StandardError=syslog
+WorkingDirectory=/opt/rest-wol/
+ExecStart=/usr/bin/node /opt/rest-wol/src/index.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

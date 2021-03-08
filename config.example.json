@@ -1,0 +1,23 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": "3000"
+  },
+  "fastify": {
+    "logger": true
+  },
+  "store": {
+    "file": "recent.json"
+  },
+  "cors": {
+    "origin": true
+  },
+  "swagger": {
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Dev Service"
+      }
+    ]
+  }
+}
