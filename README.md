@@ -20,8 +20,6 @@ yarn --prod
 yarn start
 ```
 
-create a `config.json` if necessary
-
 ## config.json
 
 With `config.json` the port, IP etc. can be set. See `config.example.json` for the default settings.
