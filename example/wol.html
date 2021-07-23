@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-api="http://localhost:3000">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOL</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  body, h1, h2, h3, h4, h5, h6,
+  button, input, select, textarea {
+    font-family: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+  }
+  a.item {text-decoration: none;}
+</style>
+</head>
+<body>
+  <div class="w3-container w3-dark-grey w3-margin-bottom">
+    <h1>WakeOnLan</h1>
+  </div>
+
+    <div id="app" class="w3-content w3-padding">
+      <div class="w3-card-4 w3-margin-bottom">
+        <form class="w3-container" action="#" onsubmit="onWakeSubmit(this.elements['mac'].value, this.elements['name'].value); return false;">
+        <div class="w3-row w3-margin-top">
+          <div class="w3-half w3-container">
+          <label>MAC Address</label>
+          <input class="w3-input w3-border" type="text" required name="mac"
+            placeholder="aa:aa:aa:aa:aa"
+            pattern="^[0-9a-fA-F]{2}([:-][0-9a-fA-F]{2}){4}[:-][0-9a-fA-F]{2}$">
+          </div>
+            <div class="w3-half w3-container">
+              <label>Device Name</label>
+              <input class="w3-input w3-border" type="text" name="name"></p>
+            </div>
+        </div>
+        <div class="w3-container">
+          <button type="submit" class="w3-btn w3-blue w3-block">Wake up</button>
+
+        </div>
+        <br>
+        </form>
+        </div>
+
+    <div class="w3-card-4 w3-margin-bottom">
+      <div class="w3-container w3-indigo">
+        <h3>Recent</h3>
+      </div>
+      <ul class="w3-ul w3-border" id="recentlist">
+      </ul>
+      </div>
+    </div>
+
+<template id="recentitem">
+    <li class="w3-hover-pale-green ">
+      <a class="w3-ripple w3-block w3-padding item" href="#" onclick="onWakeRecent(this.dataset.mac, this.dataset.name)">
+      </a>
+    </li>
+</template>
+<script>
+
+var renderRecent = function(data, append=false) {
+  var keys = Object.keys(data),
+    tpl = document.getElementById('recentitem'),
+    elem = tpl.content.querySelector('.item'),
+    parent = document.getElementById('recentlist');
+
+  if (append === false) {
+    parent.textContent=''
+  }
+  keys.forEach(function(key) {
+    elem.setAttribute('data-name', data[key]);
+    elem.setAttribute('data-mac', key);
+    elem.textContent = key + ' (' + data[key] + ')'; //' (' + key + ')';
+
+    var clone = document.importNode(tpl.content, true);
+    parent.appendChild(clone);
+  });
+}
+
+var getRecent = function() {
+  fetch(WOLURL + '/recent')
+    .then(response => response.json())
+    .then(renderRecent);
+}
+
+var wake = function (mac, name) {
+
+  var params = new URLSearchParams({mac, name}).toString();
+  fetch(WOLURL + '/wake?' + params)
+    .then(getRecent)
+}
+
+var onWakeSubmit = wake;
+var onWakeRecent = wake;
+
+var WOLURL = document.querySelector('html').dataset.api;
+
+getRecent();
+
+</script>
+</body>
+</html>
