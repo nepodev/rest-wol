@@ -1,6 +1,6 @@
 {
   "name": "rest-wol",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple REST Webservice to send Wake On Lan",
   "main": "src/index.js",
   "repository": "git@github.com:nepodev/rest-wol.git",
